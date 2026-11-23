@@ -19,6 +19,7 @@ Three databases, each doing the job it is best at.
 [![Neo4j](https://img.shields.io/badge/Neo4j-Graph-008CC1?style=for-the-badge&logo=neo4j&logoColor=white)](https://neo4j.com)
 [![Redis](https://img.shields.io/badge/Redis-Cache-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io)
 
+[![CI](https://github.com/MONISH-cloud/hotel_management_system/actions/workflows/ci.yml/badge.svg)](https://github.com/MONISH-cloud/hotel_management_system/actions/workflows/ci.yml)
 ![Tests](https://img.shields.io/badge/tests-20%20passing-2ea44f?style=flat-square)
 ![Lint](https://img.shields.io/badge/eslint-0%20problems-4B32C3?style=flat-square&logo=eslint&logoColor=white)
 ![Types](https://img.shields.io/badge/typescript-strict-3178C6?style=flat-square)
