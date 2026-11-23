@@ -5,6 +5,7 @@ import { fill } from '../src/lib/settings-shared.ts';
 import { slugify } from '../src/lib/inventory-schema.ts';
 import { nightsBetween, money, addDays } from '../src/lib/format.ts';
 import { requireEnv } from '../src/lib/env.ts';
+import { isSameOrigin } from '../src/lib/origin.ts';
 
 test('CSV quotes fields and neutralises spreadsheet formulas', () => {
   const out = toCsv([{ a: 'x,y', b: 'say "hi"', c: '=SUM(A1)', d: -5, e: null }]);
@@ -41,4 +42,17 @@ test('required secrets have no fallback: missing, short or placeholder values ar
   process.env.TEST_SECRET = 'x'.repeat(40);
   assert.equal(requireEnv('TEST_SECRET', 32).length, 40);
   delete process.env.TEST_SECRET;
+});
+
+test('cross-site guard: same-origin and header-less requests pass, other sites are refused', () => {
+  assert.equal(isSameOrigin(null, 'localhost:3000'), true);                                   // curl, scripts, server-to-server
+  assert.equal(isSameOrigin('http://localhost:3000', 'localhost:3000'), true);               // the app's own pages
+  assert.equal(isSameOrigin('https://evil.example', 'localhost:3000'), false);               // another website
+  assert.equal(isSameOrigin('http://localhost:3001', 'localhost:3000'), false);              // same host, different port
+  assert.equal(isSameOrigin('null', 'localhost:3000'), false);                               // sandboxed / opaque origin
+  assert.equal(isSameOrigin('not a url', 'localhost:3000'), false);
+  assert.equal(isSameOrigin('https://app.example.com', 'internal:3000', 'app.example.com'), true);          // behind a proxy
+  assert.equal(isSameOrigin('https://app.example.com', 'internal:3000', 'app.example.com, other'), true);
+  assert.equal(isSameOrigin('https://app.example.com', 'internal:3000', null, 'app.example.com'), true);    // APP_URL
+  assert.equal(isSameOrigin('https://APP.example.com', 'app.example.com'), true);            // case-insensitive
 });

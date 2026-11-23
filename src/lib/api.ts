@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import type { ZodType } from 'zod';
+import { isSameOrigin, MUTATING } from './origin';
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -13,6 +14,12 @@ type Handler<C> = (req: NextRequest, ctx: C) => Promise<unknown>;
 export function route<C = { params: Promise<Record<string, string>> }>(handler: Handler<C>) {
   return async (req: NextRequest, ctx: C) => {
     try {
+      // Refuse state-changing requests that another website triggered in the user's browser.
+      if (MUTATING.has(req.method)) {
+        const allowed = process.env.APP_URL ? new URL(process.env.APP_URL).host : null;
+        if (!isSameOrigin(req.headers.get('origin'), req.headers.get('host'), req.headers.get('x-forwarded-host'), allowed))
+          throw new ApiError(403, 'Cross-site request blocked.');
+      }
       const out = await handler(req, ctx);
       return out instanceof Response ? out : NextResponse.json(out ?? { ok: true });
     } catch (e) {
