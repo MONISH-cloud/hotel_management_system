@@ -12,6 +12,7 @@
     "db:all": "node scripts/setup-db.mjs && node scripts/seed-nosql.mjs",
     "typecheck": "tsc --noEmit",
     "test": "node scripts/run-tests.mjs",
+    "test:api": "node scripts/run-api-tests.mjs",
     "lint": "eslint .",
     "docs:dictionary": "node scripts/gen-data-dictionary.mjs",
     "docs:screenshots": "node scripts/take-screenshots.mjs",
