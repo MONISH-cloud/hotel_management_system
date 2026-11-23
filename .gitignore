@@ -12,3 +12,6 @@ uploads/*
 # stray local artifacts
 *.jar
 *.cookies
+
+# database backups contain guest data
+backups/

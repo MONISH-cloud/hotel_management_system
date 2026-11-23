@@ -324,6 +324,8 @@ The suite includes a **concurrency test** (two simultaneous requests for the las
 |---|---|
 | `npm run dev` / `build` / `start` | Run the app |
 | `npm run db:setup` · `db:seed-nosql` · `db:all` | Create and seed MySQL · Neo4j + Redis · everything |
+| `npm run db:backup` | Back up MySQL (dump) **and** the Neo4j reviews (they exist nowhere else) to `backups/` |
+| `npm run db:restore -- <file.sql>` | Restore a backup (refuses to overwrite without `--yes`); add `--reviews=<json>` to merge reviews back |
 | `npm run docs:dictionary` | Regenerate the [data dictionary](docs/DATA_DICTIONARY.md) from the live database |
 | `npm run docs:screenshots` | Re-capture the screenshots above (needs the app running and Chrome) |
 
@@ -355,6 +357,7 @@ docs/        13 documents + screenshots
 | ⚖️ [Technology justification](docs/TECHNOLOGY_JUSTIFICATION.md) | 🖼️ [Screenshots](docs/SCREENSHOTS.md) |
 | 🧪 [Testing report](docs/TEST_REPORT.md) | 🏁 [Conclusion & future work](docs/CONCLUSION.md) |
 | 👥 [Team & responsibilities](docs/TEAM.md) | 🎬 [Narrated walkthrough video](docs/walkthrough/maison-aurelia-walkthrough.mp4) |
+| ⚙️ [Operations runbook: backup & restore](docs/OPERATIONS.md) | 🤝 [Contributing](CONTRIBUTING.md) · 🔒 [Security](SECURITY.md) · 📝 [Changelog](CHANGELOG.md) |
 
 ## 🛣️ Roadmap
 
