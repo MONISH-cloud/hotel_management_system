@@ -314,6 +314,7 @@ Password for all: **`Password@123`** *(demo data; the login page also has one-cl
 
 ```bash
 npm test            # builds a throw-away DB from the real SQL files, runs 20 tests
+npm run test:api    # 73 HTTP tests against an isolated copy of the whole stack (needs MySQL + Redis running)
 npm run lint        # ESLint (Next.js + TypeScript)      → 0 problems
 npm run typecheck   # strict TypeScript                  → 0 errors
 ```

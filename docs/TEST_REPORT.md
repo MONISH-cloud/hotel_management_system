@@ -82,3 +82,18 @@ Run against the running application with real HTTP requests and real MySQL, Neo4
 * The live API checks in section 4 were run by script but are not part of `npm test`.
 * Payments are simulated; email delivery was verified only up to the outbox (no SMTP server was configured).
 * Tested on macOS with a native install; the Windows and Docker set-up is documented but was not executed here.
+
+## 7. Automated API suite (`npm run test:api`): 73 tests
+
+The live API checks in section 4 were first run by hand. They are now permanent automated tests in `tests/api/`:
+
+| File | Covers |
+|---|---|
+| `auth.test.mjs` | sign-in for every role, generic 401, **rate limit** (429 on the 9th failure), logout revokes even a copied cookie, register → verify → forgot → reset (single-use tokens, old sessions revoked), role change / disable ends the session |
+| `rbac.test.mjs` | a **55-row permission matrix** (anonymous / guest / receptionist / manager / admin × routes), plus "a guest sees only their own reservations" |
+| `bookings.test.mjs` | availability, booking + 25% deposit, service-order rules, modify (re-price, exact room only for staff), cancel + refund, **atomic multi-room**, **simultaneous requests for the last room**, PDF invoices, pagination and filters, CSV exports, full front-desk lifecycle through housekeeping |
+| `admin.test.mjs` | settings validation and effect on pricing, staff-account creation, employees, service catalogue, **inventory with photo upload** (bytes checked, path traversal refused), room status, housekeeping, dashboard/audit/reports, wishlist |
+
+**Isolation:** the runner builds its own database (`maison_aurelia_test`), builds the app into `.next-test`, serves it on port 3100, uses Redis database 15 and keeps Neo4j switched off. Your dev server, real database and real Redis keys are never touched, and `tsconfig.json` is restored after the build.
+
+**Not covered:** review endpoints and recommendations (they need Neo4j, deliberately off here), the browser UI, load.
