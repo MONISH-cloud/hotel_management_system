@@ -1,0 +1,16 @@
+import { defineConfig, globalIgnores } from 'eslint/config';
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTs from 'eslint-config-next/typescript';
+
+export default defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  globalIgnores(['.next/**', 'node_modules/**', 'uploads/**', 'next-env.d.ts']),
+  {
+    rules: {
+      // Hotel photos come from an admin-managed URL / upload, so plain <img> is intentional.
+      '@next/next/no-img-element': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_', ignoreRestSiblings: true }],
+    },
+  },
+]);
