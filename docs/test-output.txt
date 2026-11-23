@@ -1,0 +1,93 @@
+# Captured 2026-11-18T12:10Z on macOS 26.1 · Node v22.9.0 · MySQL 26.10.0
+
+$ npm test
+
+> maison-aurelia-hms@1.0.0 test
+> node scripts/run-tests.mjs
+
+▶ Building test database…
+Connected to MySQL 26.10.0
+> 01_schema.sql (26 statements) ... ok
+> 01b_alter_tables.sql (7 statements) ... ok
+> 02_routines.sql (27 statements) ... ok
+> 03_seed.sql (112 statements) ... ok
+Seeded: {
+  rooms: 32,
+  guests: 14,
+  reservations: 67,
+  payments: 60,
+  service_orders: 70
+}
+
+MySQL ready. Next: npm run db:seed-nosql
+
+▶ Running tests…
+
+TAP version 13
+# Subtest: prices a stay using the configured tax rate
+ok 1 - prices a stay using the configured tax rate
+# Subtest: rejects invalid dates and over-long stays
+ok 2 - rejects invalid dates and over-long stays
+# Subtest: enforces room capacity (trigger)
+ok 3 - enforces room capacity (trigger)
+# Subtest: never double-books: the last room is given to exactly one of two concurrent requests
+ok 4 - never double-books: the last room is given to exactly one of two concurrent requests
+# Subtest: a deposit confirms the booking; the deposit percentage is configurable
+ok 5 - a deposit confirms the booking; the deposit percentage is configurable
+# Subtest: refuses payments that exceed the balance
+ok 6 - refuses payments that exceed the balance
+# Subtest: full stay lifecycle: check-in rules, balance before check-out, room + housekeeping + loyalty
+ok 7 - full stay lifecycle: check-in rules, balance before check-out, room + housekeeping + loyalty
+# Subtest: cancellation refunds in full outside the window, nothing inside it
+ok 8 - cancellation refunds in full outside the window, nothing inside it
+# Subtest: multi-room booking is atomic and shares a group code
+ok 9 - multi-room booking is atomic and shares a group code
+# Subtest: modifying a booking re-prices it, keeps availability honest and refunds overpayment
+ok 10 - modifying a booking re-prices it, keeps availability honest and refunds overpayment
+# Subtest: RBAC lives in the database: permissions per role
+ok 11 - RBAC lives in the database: permissions per role
+# Subtest: constraints protect the data
+ok 12 - constraints protect the data
+# Subtest: triggers write an audit trail
+ok 13 - triggers write an audit trail
+# Subtest: all 16 analytical reports execute
+ok 14 - all 16 analytical reports execute
+# Subtest: ALTER TABLE changes are in place: booking channel is set by trigger, name constraints enforced, indexes exist
+ok 15 - ALTER TABLE changes are in place: booking channel is set by trigger, name constraints enforced, indexes exist
+# Subtest: CSV quotes fields and neutralises spreadsheet formulas
+ok 16 - CSV quotes fields and neutralises spreadsheet formulas
+# Subtest: copy placeholders are filled from live values
+ok 17 - copy placeholders are filled from live values
+# Subtest: slugify makes URL-safe slugs
+ok 18 - slugify makes URL-safe slugs
+# Subtest: date and money helpers
+ok 19 - date and money helpers
+# Subtest: required secrets have no fallback: missing, short or placeholder values are rejected
+ok 20 - required secrets have no fallback: missing, short or placeholder values are rejected
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+
+$ npm run typecheck
+> tsc --noEmit
+
+(no errors)
+
+$ npm run lint
+> eslint .
+
+(no problems)
+
+$ npm run build
+✓ Compiled successfully in 622ms
+  Generating static pages using 9 workers (0/23) ...
+  Generating static pages using 9 workers (5/23) 
+  Generating static pages using 9 workers (11/23) 
+  Generating static pages using 9 workers (17/23) 
+✓ Generating static pages using 9 workers (23/23) in 108ms
+Route (app)

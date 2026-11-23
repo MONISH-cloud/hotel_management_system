@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=block" rel="stylesheet">
+<style>
+  :root { --bg:#0a0b0e; --panel:#13151a; --line:#262a33; --gold:#d6b679; --gold2:#f0d9a8; --cream:#efe8da; --muted:#9a9488; --green:#7fd3a0; --amber:#eba862; --red:#ef7b72; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1600px; height:900px; overflow:hidden; background:var(--bg); color:var(--cream); font-family:Manrope, system-ui, sans-serif; }
+  body { background: radial-gradient(1200px 700px at 80% -10%, rgba(214,182,121,.13), transparent 60%), radial-gradient(900px 600px at -10% 110%, rgba(214,182,121,.08), transparent 60%), var(--bg); }
+  .serif { font-family:'Cormorant Garamond', Georgia, serif; }
+  .eyebrow { font-size:15px; letter-spacing:.32em; text-transform:uppercase; color:var(--gold); font-weight:600; }
+  .wrap { position:absolute; inset:0; padding:84px 120px; display:flex; flex-direction:column; }
+  h1 { font-family:'Cormorant Garamond', serif; font-weight:500; font-size:112px; line-height:1; letter-spacing:-.01em; }
+  h2 { font-family:'Cormorant Garamond', serif; font-weight:500; font-size:64px; line-height:1.05; margin-top:14px; }
+  em { color:var(--gold); font-style:italic; }
+  .logo { width:78px; height:78px; border-radius:50%; border:1.5px solid var(--gold); display:grid; place-items:center; color:var(--gold); font-family:'Cormorant Garamond'; font-size:38px; }
+  .fadein { animation: none; }
+  .hide { opacity:0; transform: translateY(14px); }
+  .item { transition:none; }
+  .list { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:44px; }
+  .card { background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01)); border:1px solid var(--line); border-radius:22px; padding:28px 30px; display:flex; gap:22px; align-items:flex-start; }
+  .card.active { border-color:rgba(214,182,121,.75); box-shadow:0 0 0 1px rgba(214,182,121,.35), 0 18px 60px rgba(214,182,121,.12); }
+  .card.dim { opacity:.55; }
+  .num { flex:none; width:52px; height:52px; border-radius:50%; display:grid; place-items:center; font-weight:700; font-size:20px; }
+  .tone-red .num { background:rgba(239,123,114,.12); color:var(--red); border:1px solid rgba(239,123,114,.4); }
+  .tone-amber .num { background:rgba(235,168,98,.12); color:var(--amber); border:1px solid rgba(235,168,98,.4); }
+  .tone-green .num { background:rgba(127,211,160,.12); color:var(--green); border:1px solid rgba(127,211,160,.4); }
+  .ct { font-size:27px; font-weight:600; line-height:1.2; }
+  .cx { font-size:19px; color:var(--muted); margin-top:8px; line-height:1.45; }
+  .foot { margin-top:auto; font-size:22px; color:var(--muted); display:flex; align-items:center; gap:14px; }
+  .foot b { color:var(--cream); font-weight:600; }
+  .term { margin-top:36px; background:#07080a; border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.5); }
+  .term .bar { height:44px; background:#121419; display:flex; align-items:center; gap:9px; padding:0 18px; border-bottom:1px solid var(--line); }
+  .term .bar i { width:13px; height:13px; border-radius:50%; background:#3a3d45; display:block; }
+  .term .bar span { margin-left:14px; color:var(--muted); font-size:15px; font-family:'JetBrains Mono', monospace; }
+  .term pre { font-family:'JetBrains Mono', ui-monospace, monospace; font-size:19px; line-height:1.62; padding:22px 28px; color:#c9c3b6; white-space:pre-wrap; }
+  .term .ok { color:var(--green); }
+  .term .hi { display:block; background:rgba(127,211,160,.12); outline:1.5px solid rgba(127,211,160,.6); border-radius:8px; margin:4px -12px; padding:4px 12px; color:#eafff2; }
+  .term .sum { color:var(--gold2); }
+  .phones { display:flex; gap:56px; justify-content:center; align-items:flex-end; margin-top:34px; }
+  .phone { width:262px; height:566px; border-radius:44px; padding:11px; background:#1b1d22; border:1px solid #33363e; box-shadow:0 40px 90px rgba(0,0,0,.6), inset 0 0 0 2px #0c0d10; position:relative; }
+  .phone img { width:100%; height:100%; object-fit:cover; object-position:top; border-radius:34px; display:block; }
+  .plabel { text-align:center; margin-top:18px; color:var(--muted); font-size:17px; }
+  table { margin-top:38px; width:100%; border-collapse:separate; border-spacing:0 12px; }
+  td { padding:20px 26px; font-size:22px; vertical-align:middle; background:rgba(255,255,255,.025); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  td:first-child { border-left:1px solid var(--line); border-radius:16px 0 0 16px; color:var(--muted); width:40%; }
+  td:last-child { border-right:1px solid var(--line); border-radius:0 16px 16px 0; font-weight:600; }
+  td.arrow { width:60px; text-align:center; color:var(--gold); font-size:26px; padding:0; }
+  th { text-align:left; font-size:14px; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); padding:0 26px; font-weight:600; }
+  .x { color:var(--red); margin-right:12px; } .v { color:var(--green); margin-right:12px; }
+  .pill { display:inline-block; padding:7px 16px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:17px; margin-right:10px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c]));
+window.render = (s) => {
+  const root = document.getElementById('root');
+  if (s.type === 'title') {
+    root.innerHTML = `<div class="wrap" style="justify-content:center">
+      <div style="display:flex;align-items:center;gap:22px;margin-bottom:46px"><div class="logo">M</div>
+        <div><div class="serif" style="font-size:40px">Maison <em>Aurelia</em></div><div class="eyebrow" style="font-size:12px;color:var(--muted)">Hotel &amp; Residences</div></div></div>
+      <div class="eyebrow">${esc(s.eyebrow)}</div>
+      <h1 style="margin-top:22px">${s.title}</h1>
+      <p style="font-size:26px;color:var(--muted);margin-top:30px;max-width:1050px;line-height:1.5">${esc(s.sub)}</p>
+      ${s.pills ? `<div style="margin-top:40px">${s.pills.map((p) => `<span class="pill">${esc(p)}</span>`).join('')}</div>` : ''}
+    </div>`;
+  } else if (s.type === 'list') {
+    root.innerHTML = `<div class="wrap">
+      <div class="eyebrow">${esc(s.eyebrow)}</div><h2>${s.heading}</h2>
+      <div class="list" style="${s.cols === 3 ? 'grid-template-columns:1fr 1fr 1fr' : ''}">
+        ${s.items.map((it, i) => `<div ${(s.fresh||[]).includes(i) ? 'data-new' : ''} class="card tone-${it.tone || 'red'} ${i >= s.show ? 'hide' : ''} ${s.active === i ? 'active' : (s.active != null && i < s.show ? 'dim' : '')}">
+          <div class="num">${esc(it.n ?? i + 1)}</div><div><div class="ct">${esc(it.title)}</div><div class="cx">${esc(it.text)}</div></div></div>`).join('')}
+      </div>
+      ${s.foot ? `<div ${s.freshFoot ? 'data-new' : ''} class="foot ${s.footShow ? '' : 'hide'}">${s.foot}</div>` : ''}
+    </div>`;
+  } else if (s.type === 'terminal') {
+    root.innerHTML = `<div class="wrap">
+      <div class="eyebrow">${esc(s.eyebrow)}</div><h2>${s.heading}</h2>
+      <div class="term"><div class="bar"><i></i><i></i><i></i><span>npm test</span></div><pre>${s.lines.map((l, i) => {
+        const cls = l.startsWith('ok') ? 'ok' : l.startsWith('#') ? 'sum' : '';
+        return `<span class="${cls} ${s.hi === i ? 'hi' : ''}">${esc(l)}</span>`;
+      }).join('\n')}</pre></div>
+    </div>`;
+  } else if (s.type === 'phones') {
+    root.innerHTML = `<div class="wrap" style="padding-top:64px">
+      <div class="eyebrow">${esc(s.eyebrow)}</div><h2>${s.heading}</h2>
+      <div class="phones">${s.imgs.map((p) => `<div><div class="phone"><img src="${p.src}"></div><div class="plabel">${esc(p.label)}</div></div>`).join('')}</div>
+    </div>`;
+  } else if (s.type === 'table') {
+    root.innerHTML = `<div class="wrap">
+      <div class="eyebrow">${esc(s.eyebrow)}</div><h2>${s.heading}</h2>
+      <table><tr><th>${esc(s.cols[0])}</th><th></th><th>${esc(s.cols[1])}</th></tr>
+      ${s.rows.map((r, i) => `<tr ${(s.fresh||[]).includes(i) ? 'data-new' : ''} class="${i >= s.show ? 'hide' : ''}"><td><span class="x">✕</span>${esc(r[0])}</td><td class="arrow">→</td><td><span class="v">✓</span>${esc(r[1])}</td></tr>`).join('')}
+      </table>
+      ${s.foot ? `<div ${s.freshFoot ? 'data-new' : ''} class="foot ${s.footShow ? '' : 'hide'}" style="margin-top:28px">${s.foot}</div>` : ''}
+    </div>`;
+  }
+  window.reveal(0);
+  return document.fonts.ready.then(() => true);
+};
+window.reveal = (p) => document.querySelectorAll('[data-new]').forEach((e) => { e.style.opacity = p; e.style.transform = `translateY(${(1 - p) * 18}px)`; });
+</script>
+</body>
+</html>
