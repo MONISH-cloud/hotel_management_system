@@ -10,6 +10,8 @@
     "db:setup": "node scripts/setup-db.mjs",
     "db:seed-nosql": "node scripts/seed-nosql.mjs",
     "db:all": "node scripts/setup-db.mjs && node scripts/seed-nosql.mjs",
+    "db:backup": "node scripts/db-backup.mjs",
+    "db:restore": "node scripts/db-restore.mjs",
     "typecheck": "tsc --noEmit",
     "test": "node scripts/run-tests.mjs",
     "lint": "eslint .",
