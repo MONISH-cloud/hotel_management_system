@@ -1,0 +1,171 @@
+1
+00:00:00,100 --> 00:00:09,468
+This is Maison Aurelia, a hotel management system for small hotels. Let’s look at the problems they face, how the app solves each one, and what’s not there yet.
+
+2
+00:00:09,668 --> 00:00:18,165
+Most small hotels run on spreadsheets, a separate billing tool, WhatsApp groups, and a website that can’t take bookings. That causes four problems.
+
+3
+00:00:18,365 --> 00:00:23,725
+One: double bookings. The website and the front desk can both sell the last room.
+
+4
+00:00:23,925 --> 00:00:30,441
+Two: the rules live in people’s heads. Deposits, refunds and tax depend on who’s on shift.
+
+5
+00:00:30,641 --> 00:00:36,595
+Three: there’s no single record of a stay, so checkout is slow and disputes are hard to settle.
+
+6
+00:00:36,795 --> 00:00:43,496
+And four: no insight or accountability. Nobody sees revenue at a glance, or knows who changed what.
+
+7
+00:00:43,696 --> 00:00:49,529
+And guests expect to do all of this online, without phoning the hotel. Let’s see how the app handles it.
+
+8
+00:00:49,729 --> 00:00:56,123
+Here’s the guest website. The booking bar checks live availability, so the hotel’s own site can finally take bookings.
+
+9
+00:00:56,323 --> 00:01:04,214
+Nothing here is hard-coded. Prices and rooms come from MySQL, and ratings come from guest reviews in Neo4j.
+
+10
+00:01:04,414 --> 00:01:11,214
+And this cancellation policy is the same setting the database uses for refunds, so what the site promises is what the hotel does.
+
+11
+00:01:11,414 --> 00:01:16,580
+Pick your dates, and every room shows real availability for those nights, down to how many are left.
+
+12
+00:01:16,780 --> 00:01:20,769
+Prices show the full stay and the tax, straight from the hotel’s settings.
+
+13
+00:01:20,969 --> 00:01:27,400
+Guests can book up to five rooms at once. It’s one transaction, so either every room is reserved, or none is.
+
+14
+00:01:27,600 --> 00:01:34,290
+Reviews and recommendations come from the Neo4j graph. If it’s ever down, the site keeps working without them.
+
+15
+00:01:34,490 --> 00:01:41,582
+Let’s book one for real. Signed in as a guest, the dates are set, and the price, tax and total are worked out instantly.
+
+16
+00:01:41,782 --> 00:01:46,023
+Reserving holds the room straight away, and asks for a deposit to confirm it.
+
+17
+00:01:46,223 --> 00:01:54,095
+The payment is simulated, and once the deposit lands, a database trigger confirms the booking. That’s the whole journey, with no phone call.
+
+18
+00:01:54,295 --> 00:02:01,973
+Signed in as a guest, here’s the loyalty tier. Points are added automatically at check-out, so everyone earns the same way.
+
+19
+00:02:02,173 --> 00:02:11,603
+Each booking shows the room, services and balance in one place. Guests can pay, order services, get an invoice, or cancel, without calling the desk.
+
+20
+00:02:11,803 --> 00:02:19,316
+One gap: payments are simulated. There’s no real payment gateway yet, but Razorpay or Stripe can be plugged into one place later.
+
+21
+00:02:19,516 --> 00:02:25,406
+Changing a booking re-prices it live, re-checks availability, and refunds any overpayment automatically.
+
+22
+00:02:25,606 --> 00:02:33,109
+Now the front desk. Every reservation, from the website or the desk, lives in one list with its status and balance.
+
+23
+00:02:33,309 --> 00:02:37,992
+Each row only offers actions that are allowed. You can’t check a guest out while they still owe money.
+
+24
+00:02:38,192 --> 00:02:44,567
+When the desk books a room, the database locks it and re-checks the dates, so the same room can never be sold twice.
+
+25
+00:02:44,767 --> 00:02:45,890
+And that’s tested.
+
+26
+00:02:46,090 --> 00:02:52,694
+Two requests for the last room, at the same moment. Exactly one wins. All twenty tests pass.
+
+27
+00:02:52,894 --> 00:02:58,460
+Housekeeping moves off WhatsApp. Check-out creates a cleaning task, and finishing it frees the room.
+
+28
+00:02:58,660 --> 00:03:04,683
+Managers get the big picture: arrivals, occupancy, revenue and what’s still owed, all live.
+
+29
+00:03:04,883 --> 00:03:08,954
+Here’s the occupancy forecast, and the status of every room right now.
+
+30
+00:03:09,154 --> 00:03:16,594
+Today’s arrivals have one-click check-in. The activity feed refreshes every twelve seconds; instant real-time updates aren’t there yet.
+
+31
+00:03:16,794 --> 00:03:21,993
+For deeper questions, sixteen SQL reports run live, with CSV export.
+
+32
+00:03:22,193 --> 00:03:32,324
+And here’s the fix for rules in people’s heads. Tax, deposit and cancellation rules live in one place. Change a number here, and the very next booking follows it.
+
+33
+00:03:32,524 --> 00:03:39,676
+Every role sees only what it needs. Permissions live in the database, so a receptionist can’t open settings or salaries.
+
+34
+00:03:39,876 --> 00:03:48,801
+And the audit log. Here’s a booking a guest just made, recorded automatically with who did it. Every change and payment is logged the same way.
+
+35
+00:03:49,001 --> 00:03:53,740
+Its confirmation email is waiting here, but it isn’t sent until email settings are added.
+
+36
+00:03:53,940 --> 00:03:57,920
+It all works on a phone. There’s no native app yet, but the website covers it.
+
+37
+00:03:58,120 --> 00:03:59,982
+So, what’s not there yet?
+
+38
+00:04:00,182 --> 00:04:03,770
+No real payment gateway, and no link to sites like Booking.com.
+
+39
+00:04:03,970 --> 00:04:06,708
+Email needs setting up, and the live feed isn’t instant.
+
+40
+00:04:06,908 --> 00:04:11,251
+It’s one hotel, one currency, and it still needs browser and load testing.
+
+41
+00:04:11,451 --> 00:04:19,319
+To sum up: no double bookings, rules in one place, one record per stay, a full audit trail, and guests who can serve themselves.
+
+42
+00:04:19,519 --> 00:04:25,607
+Next up: real payments, automated browser tests, cloud photo storage, and dynamic pricing.
+
+43
+00:04:25,807 --> 00:04:29,441
+That’s Maison Aurelia. Thanks for watching.
