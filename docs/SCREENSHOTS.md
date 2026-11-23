@@ -64,3 +64,13 @@ Policies (tax, deposit, cancellation window, maximum stay and rooms), loyalty ru
 ### 14. Activity and audit log (administrator)
 ![Audit log](screenshots/14-activity-audit.png)
 Health of the three databases, the paginated audit trail written by triggers, and the email outbox.
+
+## Error handling
+
+### 16. Not found (404)
+![Not found](screenshots/16-not-found.png)
+Any unknown URL shows a branded page with routes back to the hotel. It touches no database, so it works even when MySQL is down.
+
+### 17. Unexpected error
+![Error page](screenshots/17-error-page.png)
+If a page fails (here, MySQL was stopped on purpose) visitors see a friendly message with *Try again*, never a stack trace. Only an opaque reference is shown; details stay in the server log. Dashboard screens have their own boundary so the sidebar stays usable.
