@@ -1,0 +1,54 @@
+{
+  "name": "maison-aurelia-hms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Maison Aurelia - Hotel Management System (Next.js + MySQL + Neo4j + Redis)",
+  "scripts": {
+    "dev": "cross-env NODE_OPTIONS=--experimental-require-module next dev",
+    "build": "cross-env NODE_OPTIONS=--experimental-require-module next build",
+    "start": "next start",
+    "db:setup": "node scripts/setup-db.mjs",
+    "db:seed-nosql": "node scripts/seed-nosql.mjs",
+    "db:all": "node scripts/setup-db.mjs && node scripts/seed-nosql.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/run-tests.mjs",
+    "lint": "eslint .",
+    "docs:dictionary": "node scripts/gen-data-dictionary.mjs",
+    "docs:screenshots": "node scripts/take-screenshots.mjs",
+    "docs:walkthrough": "node scripts/walkthrough/record.mjs"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "clsx": "^2.1.1",
+    "framer-motion": "^14.14.0",
+    "ioredis": "^6.0.0",
+    "jose": "^6.2.17",
+    "lucide-react": "^1.75.0",
+    "mysql2": "^3.24.6",
+    "neo4j-driver": "^6.3.2",
+    "next": "^16.4.6",
+    "nodemailer": "^10.6.0",
+    "pdf-lib": "^1.17.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "recharts": "^3.11.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^26.6.6",
+    "@types/nodemailer": "^8.0.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.6",
+    "postcss": "^8.5.33",
+    "tailwindcss": "^4.3.5",
+    "typescript": "~5.9"
+  },
+  "engines": {
+    "node": ">=20.9"
+  }
+}
